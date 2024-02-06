@@ -1,0 +1,65 @@
+toupper(){
+         printf '%s\n' "${1^^}"
+}
+
+splitlist(){
+        #format listy dupa > dupa 
+        while IFS= read -r line; do
+    IFS='>' read -ra parts <<< "$line"
+
+    SRC="$(echo "${parts[0]}" | awk '{gsub(/^[ \t]+|[ \t]+$/,"")}1')"
+    DES="$(echo "${parts[1]}" | awk '{gsub(/^[ \t]+|[ \t]+$/,"")}1')"
+
+    echo "$SRC" >>lewa.${1}
+    echo "$DES" >>prawa.${1}
+    
+
+    main
+
+done < "$1"
+}
+ubijprocki()
+{
+echo "ps -ef | grep $1 |grep -v grep |awk '{print \$2}'|xargs kill -9"
+}
+zajmij()
+{
+fallocate -l $1 "$1.file"
+}
+
+utiliz()
+{
+    date
+    echo "uptime:"
+    uptime
+    echo "Currently connected:"
+    w
+    echo "--------------------"
+    echo "Last logins:"
+    last -a |head -3
+    echo "--------------------"
+    echo "Disk/memory"
+    df -h | xargs | awk '{print "Free/total disk: " $11 " / " $9}'
+    free -m | xargs | awk '{print "Free/total memory: " $17 " / " $8 " MB"}'
+    echo ""
+    echo "--------------------"
+    echo "Utiliz"
+    top -b |head -3
+    echo
+    top -b |head -10 |tail -4
+    echo "--------------------"
+    echo "Current connections:"
+    ss -s
+    echo "--------------------"
+    echo "vmstat:"
+    vmstat 1 5
+}
+starszeod()
+{
+find . -type f ! -newermt $1 -ls
+}
+
+nowszeod()
+{
+find . -type f  -newermt $1 -ls
+}

@@ -28,7 +28,6 @@ alias ssh='ssh -A'
 alias licz='wc -l'
 alias sba='source ~/.bash_aliases'
 alias lt='ls --human-readable --size -1 -S --classify'
-alias cli='~/cli-fapi'
 alias wcl="perl -lne 'END { print $. }'"
 alias wywalodkropki="sed 's/\([^.]*\).*/\1/'"
 alias wywalbiale="tr -d '[:space:]'"
